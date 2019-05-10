@@ -24,6 +24,8 @@ class SolidityConan(ConanFile):
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()''')
 
+        tools.replace_in_file("Solidity/CMakeLists.txt", "include(jsoncpp)", "")
+
     def build(self):
         cmake = CMake(self)
         cmake.configure(source_folder=self.name, defs = {"USE_CVC4": "OFF", "USE_Z3": "OFF"})
