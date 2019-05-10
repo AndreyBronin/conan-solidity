@@ -12,19 +12,21 @@ class SolidityConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
     default_options = "shared=False"
-    generators = "cmake_find_package"
+    generators = "cmake"
     requires = ("boost/1.70.0@conan/stable", "jsoncpp/1.8.4@theirix/stable")
 
     def source(self):
         git = tools.Git(folder=self.name)
         git.clone(str("https://github.com/ethereum/solidity"), self.version)
 
+        tools.replace_in_file("Solidity/CMakeLists.txt", "project(solidity VERSION ${PROJECT_VERSION} LANGUAGES CXX)",
+                              '''project(solidity VERSION ${PROJECT_VERSION} LANGUAGES CXX)
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()''')
+
     def build(self):
         cmake = CMake(self)
-        cmake.configure(source_folder="solidity", defs = {
-            "USE_CVC4": False,
-            "USE_Z3": False
-        })
+        cmake.configure(source_folder=self.name, defs = {"USE_CVC4": "OFF", "USE_Z3": "OFF"})
         cmake.build()
 
     def package(self):
