@@ -13,7 +13,7 @@ class SolidityConan(ConanFile):
     options = {"shared": [True, False]}
     default_options = "shared=False"
     generators = "cmake"
-    requires = ("boost/1.70.0@conan/stable", "jsoncpp/1.8.4@theirix/stable")
+    requires = ("boost/1.70.0@conan/stable")
 
     def source(self):
         git = tools.Git(folder=self.name)
