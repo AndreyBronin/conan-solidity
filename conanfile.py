@@ -2,16 +2,16 @@ from conans import ConanFile, CMake, tools
 
 
 class SolidityConan(ConanFile):
-    name = "Solidity"
+    name = "solidity"
     version = "v0.5.8"
     license = "GPL-3.0"
     author = "Andrey Bronin <jonnib@jandex.ru>"
     url = "https://github.com/AndreyBronin/conan-solidity"
-    description = "Conan package for Solidity"
+    description = "Conan package for solidity"
     topics = ("solidity", "etherium")
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False]}
-    default_options = "shared=False"
+ #   options = {"shared": [True, False]}
+ #   default_options = "shared=False"
     generators = "cmake"
     requires = ("boost/1.70.0@conan/stable", "jsoncpp/1.8.4@theirix/stable")
 
@@ -32,7 +32,7 @@ conan_basic_setup()''')
         cmake.build()
 
     def package(self):
-        self.copy("*.h", dst="include", src="hello")
+        self.copy("*.h", dst="include", src="solidity")
         self.copy("*hello.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.so", dst="lib", keep_path=False)
