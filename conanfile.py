@@ -1,6 +1,3 @@
-from conans import ConanFile, CMake, tools
-
-
 class SolidityConan(ConanFile):
     name = "solidity"
     version = "v0.5.8"
@@ -10,21 +7,24 @@ class SolidityConan(ConanFile):
     description = "Conan package for solidity"
     topics = ("solidity", "etherium")
     settings = "os", "compiler", "build_type", "arch"
- #   options = {"shared": [True, False]}
- #   default_options = "shared=False"
+    options = {"shared": [True, False]}
+    default_options = "shared=False"
     generators = "cmake"
-    requires = ("boost/1.70.0@conan/stable", "jsoncpp/1.8.4@theirix/stable")
+    requires = (
+        "boost/1.70.0@conan/stable",
+        "jsoncpp/1.8.4@theirix/stable"
+        )
 
     def source(self):
         git = tools.Git(folder=self.name)
         git.clone(str("https://github.com/ethereum/solidity"), self.version)
 
-        tools.replace_in_file("Solidity/CMakeLists.txt", "project(solidity VERSION ${PROJECT_VERSION} LANGUAGES CXX)",
+        tools.replace_in_file("solidity/CMakeLists.txt", "project(solidity VERSION ${PROJECT_VERSION} LANGUAGES CXX)",
                               '''project(solidity VERSION ${PROJECT_VERSION} LANGUAGES CXX)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()''')
 
-        tools.replace_in_file("Solidity/CMakeLists.txt", "include(jsoncpp)", "")
+        tools.replace_in_file("solidity/CMakeLists.txt", "include(jsoncpp)", "")
 
     def build(self):
         cmake = CMake(self)
@@ -41,4 +41,3 @@ conan_basic_setup()''')
 
     def package_info(self):
         self.cpp_info.libs = ["solidity"]
-
