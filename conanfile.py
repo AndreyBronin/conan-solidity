@@ -1,3 +1,6 @@
+from conans import ConanFile, CMake, tools
+
+
 class SolidityConan(ConanFile):
     name = "solidity"
     version = "v0.5.8"
