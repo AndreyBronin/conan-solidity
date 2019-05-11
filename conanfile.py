@@ -3,7 +3,7 @@ from conans import ConanFile, CMake, tools
 
 class SolidityConan(ConanFile):
     name = "solidity"
-    version = "v0.5.8"
+    version = "develop"
     license = "GPL-3.0"
     author = "Andrey Bronin <jonnib@jandex.ru>"
     url = "https://github.com/AndreyBronin/conan-solidity"
@@ -20,7 +20,7 @@ class SolidityConan(ConanFile):
 
     def source(self):
         git = tools.Git(folder=self.name)
-        git.clone(str("https://github.com/ethereum/solidity"), self.version)
+        git.clone(str("https://github.com/AndreyBronin/solidity"), self.version)
 
         tools.replace_in_file("solidity/CMakeLists.txt", "project(solidity VERSION ${PROJECT_VERSION} LANGUAGES CXX)",
                               '''project(solidity VERSION ${PROJECT_VERSION} LANGUAGES CXX)
@@ -28,6 +28,7 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()''')
 
         tools.replace_in_file("solidity/CMakeLists.txt", "include(jsoncpp)", "")
+        # tools.replace_in_file("solidity/libyul/optimiser/ForLoopInitRewriter.cpp", "return std::move(rewrite);", "return rewrite;")
 
     def build(self):
         cmake = CMake(self)
@@ -35,12 +36,17 @@ conan_basic_setup()''')
         cmake.build()
 
     def package(self):
-        self.copy("*.h", dst="include", src="solidity")
-        self.copy("*.h", dst="include", src="solidity/libsolidity/interface")
+        # self.copy("*.h", dst="include", src="solidity")
+        self.copy("*.h", dst="include/libsolidity/interface", src="solidity/libsolidity/interface")
+        self.copy("*.h", dst="include/libevmasm", src="solidity/libevmasm")
+        self.copy("*.h", dst="include/libdevcore", src="solidity/libdevcore")
+        self.copy("*.h", dst="include/liblangutil", src="solidity/liblangutil")
+
+
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.so", dst="lib", keep_path=False)
         self.copy("*.dylib", dst="lib", keep_path=False)
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["devcore", "evmasm",  "langutil",  "solc",  "solidity",  "libyul",  "yulInterpreter"]
+        self.cpp_info.libs = ["devcore", "evmasm",  "langutil",  "solc",  "solidity",  "yul",  "yulInterpreter"]
