@@ -14,8 +14,8 @@ class SolidityConan(ConanFile):
     default_options = "shared=False"
     generators = "cmake"
     requires = (
-        "boost/1.70.0@conan/stable",
-        "jsoncpp/1.8.4@theirix/stable"
+        "boost/1.70.0@andreybronin/stable",
+        "jsoncpp/1.8.4@andreybronin/stable"
         )
 
     def source(self):
