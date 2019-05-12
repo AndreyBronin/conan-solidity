@@ -11,11 +11,11 @@ class SolidityConan(ConanFile):
     topics = ("solidity", "etherium")
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
-    default_options = "shared=False"
+    default_options = "shared=True"
     generators = "cmake"
     requires = (
-        "boost/1.70.0@andreybronin/stable",
-        "jsoncpp/1.8.4@andreybronin/stable"
+        "boost/1.70.0@conan/stable",
+        "jsoncpp/1.8.4@theirix/stable"
         )
 
     def source(self):
@@ -28,7 +28,7 @@ include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()''')
 
         tools.replace_in_file("solidity/CMakeLists.txt", "include(jsoncpp)", "")
-        # tools.replace_in_file("solidity/libyul/optimiser/ForLoopInitRewriter.cpp", "return std::move(rewrite);", "return rewrite;")
+        tools.replace_in_file("solidity/cmake/EthCompilerSettings.cmake", "add_compile_options(-stdlib=libstdc++)", "")
 
     def build(self):
         cmake = CMake(self)
@@ -49,4 +49,5 @@ conan_basic_setup()''')
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
+        # self.cpp_info.libs = ["solidity"]
         self.cpp_info.libs = ["devcore", "evmasm",  "langutil",  "solc",  "solidity",  "yul",  "yulInterpreter"]
