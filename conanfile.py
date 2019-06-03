@@ -3,7 +3,7 @@ from conans import ConanFile, CMake, tools
 
 class SolidityConan(ConanFile):
     name = "solidity"
-    version = "develop"
+    version = "v0.5.9"
     license = "GPL-3.0"
     author = "Andrey Bronin <jonnib@jandex.ru>"
     url = "https://github.com/AndreyBronin/conan-solidity"
@@ -20,7 +20,7 @@ class SolidityConan(ConanFile):
 
     def source(self):
         git = tools.Git(folder=self.name)
-        git.clone(str("https://github.com/AndreyBronin/solidity"), self.version)
+        git.clone(str("https://github.com/ethereum/solidity"), self.version)
 
         tools.replace_in_file("solidity/CMakeLists.txt", "project(solidity VERSION ${PROJECT_VERSION} LANGUAGES CXX)",
                               '''project(solidity VERSION ${PROJECT_VERSION} LANGUAGES CXX)
