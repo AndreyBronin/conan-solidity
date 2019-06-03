@@ -1,7 +1,7 @@
 
 env:
    global:
-     - CONAN_REFERENCE: "solidity/v0.5.8"
+     - CONAN_REFERENCE: "solidity/v0.5.9"
      - CONAN_USERNAME: "andreybronin"
      - CONAN_LOGIN_USERNAME: "andreybronin"
      - CONAN_CHANNEL: "testing"
