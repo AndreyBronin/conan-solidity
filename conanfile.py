@@ -3,7 +3,7 @@ from conans import ConanFile, CMake, tools
 
 class SolidityConan(ConanFile):
     name = "solidity"
-    version = "v0.5.9"
+    version = "v0.5.10"
     license = "GPL-3.0"
     author = "Andrey Bronin <jonnib@jandex.ru>"
     url = "https://github.com/AndreyBronin/conan-solidity"
